@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{layout/layout::main-fragment(
+        ~{::title2},
+        ~{:: #others-static-ressource},
+        ~{:: #main-content},
+        ~{:: #others-js}
+      )}"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+
+<title th:text="${title}">Boutique Manager</title>
+
+<th:block id="others-static-ressource">
+    <style>
+            #details-domiciliation p b{
+                text-align: left;
+                color: rgb(0, 162, 232);
+                float: right;
+            }
+            #details-transaction {
+                border-right: solid 1px #ccc;
+                padding-right: 25px;
+            }
+
+
+    </style>
+</th:block>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+</head>
+<body>
+<div id="main-content">
+    <div class="card-header pb-0">
+        <div class="row mb-2 mb-xl-3">
+
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="dt-buttons btn-group flex-wrap">
+                        <button aria-controls="datatables-buttons" class="btn btn-secondary buttons-copy buttons-html5"
+                                tabindex="0" type="button"><span>Copy</span></button>
+                        <button aria-controls="datatables-buttons" class="btn btn-secondary buttons-print" tabindex="0"
+                                type="button"><span>Print</span></button>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="col-auto ms-auto text-end mt-n1">
+                        <a class="btn btn-primary" th:href="@{/user-get-save-form}">Nouvel Admin</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-striped" id="datatables-reponsive" style="width:100%">
+            <thead>
+            <tr>
+                <th>#Num</th>
+                <th></th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Email</th>
+                <th>Sexe</th>
+                <th>CNI</th>
+                <th>Statut user</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:bloc th:if="${users}!=null">
+                <tr th:each="b, s : ${users}">
+                    <td th:utext="${s.count}"></td>
+                    <td>
+                        <div class="flex-shrink-0">
+                            <div th:if="${b.avatar!= null}">
+                                <img alt="Avatar" class="avatar img-fluid rounded"
+                                     height="100" th:src="@{image/{img}(img=${b.avatar})}" width="100"/>
+                            </div>
+                            <div th:unless="${b.avatar != null }">
+                                <img alt="Avatar" class="avatar img-fluid rounded"
+                                     height="100" th:src="@{/img/avatars/avatar.png}" width="100"/>
+                            </div>
+                        </div>
+                    </td>
+                    <td th:utext="${b.nameUser}"></td>
+                    <td th:utext="${b.surnameUser}"></td>
+                    <td th:utext="${b.email}">
+                    <td th:utext="${b.sexe}"></td>
+                    <td th:utext="${b.numeroCni}"></td>
+                    <td>
+                        <span class="badge bg-success" th:if="${b.isEnabled}">Actif</span>
+                        <span class="badge bg-danger" th:unless="${b.isEnabled}">Retire</span>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button aria-expanded="false" aria-haspopup="true" class="btn btn-primary dropdown-toggle"
+                                    data-bs-toggle="dropdown" type="button">
+                                Select
+                            </button>
+                            <div class="dropdown-menu" style="">
+                                <a class="dropdown-item" th:href="@{/get-user-modif-{id}(id=${b.id})}">Modifier
+                                    Profil</a>
+                                <a class="dropdown-item"
+                                   th:href="@{/activer-{id}-user(id=${b.id})}">activer/desactiver</a>
+                                <a class="dropdown-item" data-bs-toggle="modal" th:data-bs-target="@{#sizedModalSmvu{id}(id=${b.id})}"
+                                   th:if="${b.isEnabled}">roles attribués
+                                </a>
+                                <a class="dropdown-item" data-bs-toggle="modal" th:data-bs-target="@{#sizedModalSm{id}(id=${b.id})}"
+                                   th:if="${b.isEnabled}">Modifier roles
+                                </a>
+                                <a class="dropdown-item"
+                                   th:href="@{/get-user-historique-/{id}(id=${b.id})}">Historique
+                                </a>
+                                <div class="dropdown-divider">
+                                </div>
+                            </div>
+                        </div>
+                        <!--                                debut modal-->
+                        <div aria-hidden="true" class="modal fade" data-backdrop="false"
+                             role="dialog" tabindex="-1" th:id="@{sizedModalSm{id}(id=${b.id})}">
+
+                            <div class="modal-dialog modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Modifier Roles adminin <span
+                                                th:utext="${b.nameUser}"></span></h5>
+                                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                                type="button"></button>
+                                    </div>
+                                    <form th:action="@{/role-{id}-user-add(id=${b.id})}" th:method="post">
+
+                                        <div class="modal-body m-3">
+                                            <div th:each="c, s : ${uroles}">
+                                                <div class="mb-3">
+                                                    <label class="form-check m-0">
+                                                        <input class="form-check-input" name="role[]" th:value="${c.id}"
+                                                               type="checkbox">
+                                                        <span class="form-check-label" th:text="${c.description}">Check me out</span>
+                                                    </label>
+                                                </div>
+                                                <hr>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">
+                                                Fermer
+                                            </button>
+                                            <button type="submit">Confirmer</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div aria-hidden="true" class="modal fade" data-backdrop="false"
+                             role="dialog" tabindex="-1" th:id="@{sizedModalSmvu{id}(id=${b.id})}">
+                            <div class="modal-dialog modal-sm" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Role admin <span th:utext="${b.nameUser}"></span></h5>
+                                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                                type="button"></button>
+                                    </div>
+                                    <div class="modal-body m-3" th:if="b.roles!=null">
+                                        <div th:each="c, s : ${b.roles}">
+                                            <div class="mb-3">
+                                                <label class="form-check m-0">
+                                                    <span class="form-check-label" th:text="${c.description}">Check me out</span>
+                                                </label>
+                                            </div>
+                                            <hr>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Fermer
+                                        </button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--                                fin modal-->
+
+
+                    </td>
+                </tr>
+            </th:bloc>
+            </tbody>
+        </table>
+        <nav aria-label="Page navigation example" id="pagination" th:data-current="${currentPage}" th:data-pages="${nbPages}"
+             th:data-uri="${uri}" th:if="${nbPages != null and nbPages > 1 }">
+            <div th:replace="pagination::pagination"></div>
+        </nav>
+    </div>
+</div>
+</body>
+</html>

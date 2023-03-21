@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      th:replace="~{layout/layout::main-fragment(
+        ~{::title2},
+        ~{:: #others-static-ressource},
+        ~{:: #main-content},
+        ~{:: #others-js}
+      )}">
+
+<title th:text="${title}">Domiciliation Manager</title>
+
+<th:block id="others-static-ressource">
+    <style>
+            #details-domiciliation p b{
+                text-align: left;
+                color: rgb(0, 162, 232);
+                float: right;
+            }
+            #details-transaction {
+                border-right: solid 1px #ccc;
+                padding-right: 25px;
+            }
+        </style>
+</th:block>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+</head>
+<body>
+<div id="main-content">
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+
+                <h6 class="card-subtitle text-muted">Gestion d'un administrateur</h6>
+            </div>
+            <div class="card-body">
+                <form th:method="post" th:action="@{${url}}"
+                th:object="${userForm}" enctype="multipart/form-data"  >
+                    <div class="row">
+                        <th:block th:if="${readOnly}!=null">
+                        <div class="mb-3 col-md-6">
+                            <label class="form-label" for="inputEmail4">Email *</label>
+                            <input type="email" readonly th:field="*{email}" class="form-control" id="inputEmail4" placeholder="Email">
+                            <span class="text-danger" th:if="${#fields.hasErrors('email')}">Cet email est utilisé ou n'est pas valide</span>
+
+                        </div>
+                        </th:block>
+                        <th:block th:Unless="${readOnly}!=null">
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label" for="inputEmail4">Email *</label>
+                                <input type="email"   th:field="*{email}" class="form-control" id="inputEmail42" placeholder="Email">
+                                <span class="text-danger" th:if="${#fields.hasErrors('email')}">Cet email est utilisé ou n'est pas valide</span>
+
+                            </div>
+                        </th:block>
+                        <div class="mb-3 col-md-5">
+                            <label class="form-label" for="inputPassword4">Password *</label>
+                            <input type="password" th:field="*{password}" class="form-control" id="inputPamssword4" placeholder="Password">
+                            <span class="text-danger" th:if="${#fields.hasErrors('password')}" ></span>
+
+                        </div>
+                        <div class="mb-3 col-md-5">
+                            <label class="form-label" for="inputPassword4">Confime password *</label>
+                            <input type="password" th:field="*{confirmpassword}" class="form-control" id="inputPassword4" placeholder="Password">
+                            <span class="text-danger" th:if="${#fields.hasErrors('confirmpassword')}" >mot de passe mal confirme</span>
+
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="inputAddress">Numero CNI</label>
+                        <input type="text" th:field="*{cni}" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                    </div>
+
+
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label class="form-label" for="inputCityx">Nom *</label>
+                            <input type="text" th:field="*{nom}" class="form-control" id="inputCityx">
+                            <span class="text-danger" th:if="${#fields.hasErrors('nom')}" >Champs requis</span>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label class="form-label" for="inputCity">Prenom</label>
+                            <input type="text" th:field="*{prenom}"class="form-control" id="inputCity">
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <label class="form-label" for="inputState">Sexe *</label>
+                            <select id="inputState" th:field="*{sexe}" class="form-control">
+                                <option value="">Select sexe</option>
+                                <option value="M">Masculin</option>
+                                <option value="F">Feminin</option>
+
+                            </select>
+                            <span class="text-danger" th:if="${#fields.hasErrors('sexe')}">veuillez selectionner le genre</span>
+
+                        </div>
+                        <div class="col-6 col-md-4 col-lg-4 col-xl-3">
+                            <label class="form-label" for="inputState"></label>
+                            <img th:src="@{image/{image}(image=*{avatar})}" class="img-fluid pe-2" alt="user image">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label w-100">Charger image </label>
+                        <input th:field="*{image}" type="file">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

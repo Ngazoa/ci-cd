@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      th:replace="~{layout/layout::main-fragment(
+        ~{::title2},
+        ~{:: #others-static-ressource},
+        ~{:: #main-content},
+        ~{:: #others-js}
+      )}">
+
+<title th:text="${title}">Boutique Manager</title>
+
+<th:block id="others-static-ressource">
+    <style>
+            #details-domiciliation p b{
+                text-align: left;
+                color: rgb(0, 162, 232);
+                float: right;
+            }
+            #details-transaction {
+                border-right: solid 1px #ccc;
+                padding-right: 25px;
+            }
+
+    </style>
+</th:block>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+</head>
+<body>
+<div id="main-content">
+    <div class="card-header pb-0">
+        <div class="row mb-2 mb-xl-3">
+
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="dt-buttons btn-group flex-wrap">
+                        <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0"
+                                aria-controls="datatables-buttons" type="button"><span>Copy</span></button>
+                        <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="datatables-buttons"
+                                type="button"><span>Print</span></button>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+
+                </div>
+            </div>
+        </div>
+
+        <table id="datatables-reponsive" class="table table-striped" style="width:100%">
+            <thead>
+            <tr>
+                <th>#Num</th>
+                <th>Client</th>
+                <th>Initiateur transac</th>
+                <th>Prix total</th>
+                <th>Date</th>
+                <th>Statut</th>
+                <th>Action</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <th:bloc th:if="${commandes}!=null" >
+                <tr th:each="b, s : ${commandes}">
+                    <td th:utext="${s.count}"></td>
+                    <td th:utext="${b.codeCommande}"></td>
+                    <td th:utext="${b.user.nameUser}"></td>
+                    <td class='montant_format' th:utext="${b.prixTotal}"></td>
+                    <td th:utext="${b.dateCreation}"></td>
+                    <td>
+                        <span th:if="${b.isAnnulee}" class="badge bg-danger">Retiree</span>
+                        <span th:unless="${b.isAnnulee}"  class="badge bg-success">Succes</span>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Select
+                            </button>
+                            <div class="dropdown-menu" style="">
+                                <a class="dropdown-item" th:href="@{/get-all-article-command-client-{id}(id=${b.id})}">Details</a>
+                                <a class="dropdown-item" target="_blank" th:href="@{/pdf-generatot-commande-client-{id}(id=${b.id})}">Facture</a>
+
+                                <a th:if="${#authorization.expression('hasRole(''ROLE_STOCK'')')}" th:unless="${b.isAnnulee}"  class="dropdown-item" data-bs-toggle="modal" th:data-bs-target="@{#sizedModalSm{id}(id=${b.id})}">
+                                    Annuler
+                                </a>
+
+                                <div class="dropdown-divider"></div>
+                            </div>
+                                <div class="modal fade" data-backdrop="false" th:id="@{sizedModalSm{id}(id=${b.id})}" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog modal-sm" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Annuler la commande <span th:utext="${b.codeCommande}"></span></h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body m-3">
+                                                <p class="mb-0">Cette action est irreversible<br>Souhaitez vous vraiment Continuer ?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                                <a th:unless="${b.isAnnulee}"  class="btn btn-primary" th:href="@{/annuler-client-commade-{id}(id=${b.id})}">Confirmer</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </th:bloc>
+            </tbody>
+        </table>
+        <nav id="pagination" th:if="${nbPages != null and nbPages > 1 }" th:data-pages="${nbPages}" th:data-uri="${uri}" th:data-current="${currentPage}" aria-label="Page navigation example">
+            <div th:replace="pagination::pagination"></div>
+        </nav>
+    </div>
+</div>
+</body>
+</html>

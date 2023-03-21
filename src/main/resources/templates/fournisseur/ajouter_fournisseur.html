@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      th:replace="~{layout/layout::main-fragment(
+        ~{::title2},
+        ~{:: #others-static-ressource},
+        ~{:: #main-content},
+        ~{:: #others-js}
+      )}">
+
+<title th:text="${title}">Domiciliation Manager</title>
+
+<th:block id="others-static-ressource">
+    <style>
+            #details-domiciliation p b{
+                text-align: left;
+                color: rgb(0, 162, 232);
+                float: right;
+            }
+            #details-transaction {
+                border-right: solid 1px #ccc;
+                padding-right: 25px;
+            }
+        </style>
+</th:block>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+</head>
+<body>
+<div id="main-content">
+
+    <div class="mb-3">
+        <h1 class="h3 d-inline align-middle">Validation</h1><a class="badge bg-primary ms-2" href="" target="_blank">Pro Component <i class="fas fa-fw fa-external-link-alt"></i></a>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-subtitle text-muted">Ajouter un nouveau fourisseur<a href="" target="_blank" rel="noopener noreferrer nofollow">here</a>.</h5>
+                </div>
+                <div class="card-body">
+                    <form th:object="${fournisseurForm}" method="post" th:action="@{${fournisseurUri}}" >
+                        <div class="col-md-4">
+                            <label for="validationCustom01" class="form-label">Nom founiseeur *</label>
+                            <input type="text" class="form-control" id="validationCustom01" th:field="*{nom}" required="">
+                            <span class="text-danger" th:if="${#fields.hasErrors('nom')}">nom obligatoire</span>
+
+                            <div class="valid-feedback">
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="validationCustom02" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="validationCustom02" th:field="*{email}" required="">
+                            <span class="text-danger" th:if="${#fields.hasErrors('email')}" >mail invalide</span>
+
+                            <div class="valid-feedback"></div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="validationCustom05" class="form-label">Telephone *</label>
+                            <input type="number" th:field="*{telephone}" class="form-control" id="validationCustom05" required="">
+                            <span class="text-danger" th:if="${#fields.hasErrors('telephone')}" >champ obligatoire</span>
+
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+                        <div th:if="${#authorization.expression('hasRole(''ROLE_SUPERADMIN'')')}" class="col-12">
+                            <button class="btn btn-primary" type="submit">Enregistre Fournisseur</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      th:replace="~{layout/layout::main-fragment(
+        ~{::title2},
+        ~{:: #others-static-ressource},
+        ~{:: #main-content},
+        ~{:: #others-js}
+      )}">
+
+<title th:text="${title}">Domiciliation Manager</title>
+
+<th:block id="others-static-ressource">
+    <style>
+            #details-domiciliation p b{
+                text-align: left;
+                color: rgb(0, 162, 232);
+                float: right;
+            }
+            #details-transaction {
+                border-right: solid 1px #ccc;
+                padding-right: 25px;
+            }
+        </style>
+</th:block>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+</head>
+<body>
+<div id="main-content">
+    <div class="card-header pb-0">
+    <div class="row mb-2 mb-xl-3">
+        <div class="col-auto ms-auto text-end mt-n1">
+            <a th:href="@{/get-fournisseur-form}" class="btn btn-primary">Ajouter Fournisseur</a>
+        </div>
+    </div>
+    <table id="datatables-reponsive" class="table table-striped" style="width:100%">
+        <thead>
+        <tr>
+            <th>#Num</th>
+            <th>Nom</th>
+            <th>Telephone</th>
+            <th>Email</th>
+            <th>Etat</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:if="${fournisseurs}!=null">
+        <tr th:each="b, s : ${fournisseurs}">
+            <td th:utext="${s.count}"></td>
+            <td th:utext="${b.nomFournisseur}"></td>
+            <td th:utext="${b.telephone}"></td>
+            <td th:utext="${b.email}"></td>
+
+            <td><a >
+                <span th:if="${b.isEnabled}" class="badge bg-success">active</span>
+                <span th:unless="${b.isEnabled}" class="badge bg-danger">block</span>
+            </a>
+            </td>
+            <td>
+                <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Select
+                </button>
+                <div class="dropdown-menu" style="">
+                    <a class="dropdown-item" th:href="@{/les-commandes-fournisseurs-{id}(id=${b.id})}">Historique</a>
+                    <a class="dropdown-item" th:href="@{/get-fournisseur-form/{id}(id=${b.id})}">Profile / modifs</a>
+                    <a th:if="${#authorization.expression('hasRole(''ROLE_SUPERADMIN'')')}" class="dropdown-item" th:href="@{/founisseur-{id}/manage(id=${b.id})}">Supprimer</a>
+                    <div class="dropdown-divider"></div>
+                </div>
+            </div>
+            </td>
+        </tr>
+        </th:block>
+        </tbody>
+    </table>
+
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="add-fournisseur" class="container-fluid p-0">
+
+    <div class="mb-3">
+        <h1 class="h3 d-inline align-middle">Validation</h1><a class="badge bg-primary ms-2" href="https://adminkit.io/pricing/" target="_blank">Pro Component <i class="fas fa-fw fa-external-link-alt"></i></a>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-subtitle text-muted">Ajouter un nouveau fourisseur<a  target="_blank" rel="noopener noreferrer nofollow">here</a>.</h5>
+                </div>
+                <div class="card-body">
+                    <form class="row g-3 needs-validation was-validated"
+                         th:object="${fournisseurForm}" th:action="@{/get-fournisseur-form}" novalidate="">
+                        <div class="col-md-4">
+                            <label for="validationCustom01" class="form-label">Nom founiseeur</label>
+                            <input type="text" class="form-control" id="validationCustom01" th:field="*{nom}" required="">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="validationCustom02" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="validationCustom02" th:field="*{email}" required="">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="validationCustom05" class="form-label">Telephone</label>
+                            <input type="number" th:field="*{telephone}" class="form-control" id="validationCustom05" required="">
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+                        <div th:if="${#authorization.expression('hasRole(''ROLE_SUPERADMIN'')')}" class="col-12">
+                            <button class="btn btn-primary" type="submit">Enregistre Fournisseur</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

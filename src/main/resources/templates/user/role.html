@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{layout/layout::main-fragment(
+        ~{::title2},
+        ~{:: #others-static-ressource},
+        ~{:: #main-content},
+        ~{:: #others-js}
+      )}"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+
+<title th:text="${title}">Domiciliation Manager</title>
+
+<th:block id="others-static-ressource">
+    <style>
+            #details-domiciliation p b{
+                text-align: left;
+                color: rgb(0, 162, 232);
+                float: right;
+            }
+            #details-transaction {
+                border-right: solid 1px #ccc;
+                padding-right: 25px;
+            }
+
+
+    </style>
+</th:block>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+</head>
+<body>
+<div id="main-content">
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+
+                <h6 class="card-subtitle text-muted">Gestion des roles de <span
+                        class="form-check-label bg-warning" th:if="${user} !=null" th:text="${user}">Check me out</span>
+                </h6>
+            </div>
+            <div class="card-body">
+                <form th:action="@{${url}}" th:method="post">
+
+                    <th:block th:if="${roles} !=null">
+                        <div th:each="b, s : ${roles}">
+                            <div class="mb-3">
+                                <label class="form-check m-0">
+                                    <input class="form-check-input" name="id[]" type="checkbox">
+                                    <span class="form-check-label" th:text="${b.description}">Check me out</span>
+                                </label>
+                            </div>
+                        </div>
+                    </th:block>
+
+                    <button class="btn btn-primary" type="submit">Enregistrer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

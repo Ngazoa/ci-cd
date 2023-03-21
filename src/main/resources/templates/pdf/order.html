@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>Fscture</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body class="flex items-center justify-center h-screen">
+<div class="rounded-lg border shadow-lg p-10 w-3/5">
+    <div class="flex flex-row justify-between pb-4">
+        <div>
+            <h2 class="text-xl font-bold">Reference #<span class="text-green-600"
+                                                           th:text="${orderEntry.orderId}"></span>
+            </h2>
+        </div>
+        <div>
+            <div class="text-xl font-bold" th:text="${orderEntry.date}"></div>
+        </div>
+    </div>
+    <div class="flex flex-col pb-8">
+        <div class="pb-2">
+            <h2 class="text-xl font-bold">Delivery Address</h2>
+        </div>
+        <div th:text="${orderEntry.account.address.street}"></div>
+        <div th:text="${orderEntry.account.address.city}"></div>
+        <div th:text="${orderEntry.account.address.state}"></div>
+        <div th:text="${orderEntry.account.address.zipCode}"></div>
+
+    </div>
+    <div class="logo">
+        <img alt="logo image" class="img-fluid pe-2" height="200"
+             th:src="@{image/{image}(image=${orderEntry.account.address.avatar})}" width="200">
+    </div>
+    <table class="table-fixed w-full text-right border rounded">
+        <thead class="bg-gray-100">
+        <tr>
+            <th class="text-left">Product</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th class="pr-4">Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${orderEntry.items}">
+            <td class=" text-left" th:text="${item.name}"></td>
+            <td th:text="${item.quantity}"></td>
+            <td class="montant_format" th:text="${item.price}"></td>
+            <td class="pr-4" th:text="${item.price * item.quantity}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="flex flex-row-reverse p-5">
+        <h2 class="font-medium  bg-gray-200 p-2 rounded">
+            Grand Total: <span class="montant_format text-green-600" th:text="${orderEntry.payment.amount}"></span>
+        </h2>
+    </div>
+    <h2 class="text-xl font-bold">Payment Details</h2>
+    <table class="table-fixed text-left w-2/6 border">
+        <tr>
+            <th class="text-green-600">Mode paiement</th>
+            <td th:text="${orderEntry.payment.cardNumber}"></td>
+        </tr>
+        <tr>
+            <th class="text-green-600">Effectue par</th>
+            <td th:text="${orderEntry.payment.cvv}"></td>
+        </tr>
+        <tr>
+            <th class="text-green-600">Client</th>
+            <td th:text="${orderEntry.payment.client}"></td>
+
+        </tr>
+    </table>
+</div>
+<script>
+    $(window).on('load', function () {
+        $('.montant_format').each(function () {
+            var td = $(this);
+            var data = montant_format(td.text());
+            td.html(data);
+        });
+
+    });
+    function montant_format(number) {
+        var decimals = 2;
+        var dec_point = '.';
+        var thousands_sep = ',';
+        number = (number + '')
+                .replace(/[^0-9+\-Ee.]/g, '');
+        var n = !isFinite(+number) ? 0 : +number,
+                prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+                sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+                dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+                s = '',
+                toFixedFix = function (n, prec) {
+                    var k = Math.pow(10, prec);
+                    return '' + (Math.round(n * k) / k)
+                            .toFixed(prec);
+                };
+        // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+        s = (prec ? toFixedFix(n, prec) : '' + Math.round(n))
+                .split('.');
+        if (s[0].length > 3) {
+            s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+        }
+        if ((s[1] || '')
+                .length < prec) {
+            s[1] = s[1] || '';
+            s[1] += new Array(prec - s[1].length + 1)
+                    .join('0');
+        }
+        return s.join(dec);
+    }
+
+
+</script>
+</body>
+</html>

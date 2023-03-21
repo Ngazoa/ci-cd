@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{layout/layout::main-fragment(
+        ~{::title2},
+        ~{:: #others-static-ressource},
+        ~{:: #main-content},
+        ~{:: #others-js}
+      )}"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+
+<title th:text="${title}">Boutique Manager</title>
+
+<th:block id="others-static-ressource">
+    <style>
+            #details-domiciliation p b{
+                text-align: left;
+                color: rgb(0, 162, 232);
+                float: right;
+            }
+            #details-transaction {
+                border-right: solid 1px #ccc;
+                padding-right: 25px;
+            }
+
+
+    </style>
+</th:block>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+</head>
+<body>
+<div id="main-content">
+    <div class="card-header pb-0">
+        <div class="row mb-2 mb-xl-3">
+
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="mb-2">
+                        <button class="btn btn-success">
+                        <i class="align-middle me-2" data-feather="command"></i>
+                        <span  th:utext="${NbreCommandes}"  class="align-middle">command</span>
+                        </button>
+                    </div>
+
+                    <div class="mb-2">
+                        <button class="btn btn-warning">
+                            <i class="align-middle me-2" data-feather="maximize"></i>
+                            <span  th:utext="${montantCommandes}"  class="align-middle">command</span>
+                        </button>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+
+        <table class="table table-striped" id="datatables-reponsive" style="width:100%">
+            <thead>
+            <tr>
+                <th>#Num</th>
+                <th>Client</th>
+                <th>Initiateur transac</th>
+                <th>Prix total</th>
+                <th>Date</th>
+                <th>Statut</th>
+                <th>Action</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <th:bloc th:if="${commandes}!=null">
+                <tr th:each="b, s : ${commandes}">
+                    <td th:utext="${s.count}"></td>
+                    <td th:utext="${b.codeCommande}"></td>
+                    <td th:utext="${b.user.nameUser}"></td>
+                    <td class='montant_format' th:utext="${b.prixTotal}"></td>
+                    <td th:utext="${b.dateCreation}"></td>
+                    <td>
+                        <span class="badge bg-danger" th:if="${b.isAnnulee}">Retiree</span>
+                        <span class="badge bg-success" th:unless="${b.isAnnulee}">Succes</span>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button aria-expanded="false" aria-haspopup="true" class="btn btn-primary dropdown-toggle"
+                                    data-bs-toggle="dropdown" type="button">
+                                Select
+                            </button>
+                            <div class="dropdown-menu" style="">
+                                <a class="dropdown-item" th:href="@{/get-all-article-command-client-{id}(id=${b.id})}">Details</a>
+                                <a class="dropdown-item" target="_blank"
+                                   th:href="@{/pdf-generatot-commande-client-{id}(id=${b.id})}">Facture</a>
+
+                                <a class="dropdown-item" data-bs-toggle="modal" th:data-bs-target="@{#sizedModalSm{id}(id=${b.id})}"
+                                   th:unless="${b.isAnnulee}">
+                                    Annuler
+                                </a>
+
+                                <div class="dropdown-divider"></div>
+                            </div>
+                            <div aria-hidden="true" class="modal fade" data-backdrop="false"
+                                 role="dialog" tabindex="-1" th:id="@{sizedModalSm{id}(id=${b.id})}">
+                                <div class="modal-dialog modal-sm" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Annuler la commande <span
+                                                    th:utext="${b.codeCommande}"></span></h5>
+                                            <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                                    type="button"></button>
+                                        </div>
+                                        <div class="modal-body m-3">
+                                            <p class="mb-0">Cette action est irreversible<br>Souhaitez vous vraiment
+                                                Continuer ?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">
+                                                Fermer
+                                            </button>
+                                            <a class="btn btn-primary" th:href="@{/annuler-client-commade-{id}(id=${b.id})}"
+                                               th:unless="${b.isAnnulee}">Confirmer</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </th:bloc>
+            </tbody>
+        </table>
+        <nav aria-label="Page navigation example" id="pagination" th:data-current="${currentPage}" th:data-pages="${nbPages}"
+             th:data-uri="${uri}" th:if="${nbPages != null and nbPages > 1 }">
+            <div th:replace="pagination::pagination"></div>
+        </nav>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      th:replace="~{layout/layout::main-fragment(
+        ~{::title2},
+        ~{:: #others-static-ressource},
+        ~{:: #main-content},
+        ~{:: #others-js}
+      )}">
+
+<title th:text="${title}">Boutique Manager</title>
+
+<th:block id="others-static-ressource">
+    <style>
+            #details-domiciliation p b{
+                text-align: left;
+                color: rgb(0, 162, 232);
+                float: right;
+            }
+            #details-transaction {
+                border-right: solid 1px #ccc;
+                padding-right: 25px;
+            }
+
+    </style>
+</th:block>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+</head>
+<body>
+<div id="main-content">
+    <div class="card-header pb-0">
+        <div class="row mb-2 mb-xl-3">
+
+            <div class="col-auto ms-auto text-end mt-n1">
+                <a th:href="@{/get-form-boutique}" class="btn btn-primary">Nouvelle Boutique</a>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="dt-buttons btn-group flex-wrap">
+                        <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0"
+                                aria-controls="datatables-buttons" type="button"><span>Copy</span></button>
+                        <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="datatables-buttons"
+                                type="button"><span>Print</span></button>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div id="datatables-buttons_filter" class="dataTables_filter"><label>Search:<input type="search"
+                                                                                                       class="form-control form-control-sm"
+                                                                                                       placeholder=""
+                                                                                                       aria-controls="datatables-buttons"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table id="datatables-reponsive" class="table table-striped" style="width:100%">
+            <thead>
+            <tr>
+                <th>#Num</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Telephone</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="b, s : ${boutiques}">
+                <td th:utext="${s.count}"></td>
+                <td th:utext="${b.name}"></td>
+                <td th:utext="${b.email}"></td>
+                <td th:utext="${b.telephone}"></td>
+                <td><a th:if="${#authorization.expression('hasRole(''ROLE_SUPERUSER'')')}" th:href="@{/boutique-{id}/manage(id=${b.id})}">
+                    <span th:if="${b.isEnabled}" class="badge bg-success">active</span>
+                    <span th:unless="${b.isEnabled}" class="badge bg-danger">block</span>
+                </a>
+                </td>
+                <td>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+</body>
+</html>

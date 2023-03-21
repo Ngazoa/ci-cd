@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      th:replace="~{layout/layout::main-fragment(
+        ~{::title2},
+        ~{:: #others-static-ressource},
+        ~{:: #main-content},
+        ~{:: #others-js}
+      )}">
+
+<title th:text="${title}">Domiciliation Manager</title>
+
+<th:block id="others-static-ressource">
+    <style>
+            #details-domiciliation p b{
+                text-align: left;
+                color: rgb(0, 162, 232);
+                float: right;
+            }
+            #details-transaction {
+                border-right: solid 1px #ccc;
+                padding-right: 25px;
+            }
+
+    </style>
+</th:block>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+</head>
+<body>
+<div id="main-content">
+    <div class="row mb-2 mb-xl-3">
+        <div class="col-auto ms-auto text-end mt-n1">
+            <a th:href="@{/get-form-boutique}" class="btn btn-primary">Nouvelle Boutique</a>
+        </div>
+    </div>
+    <div class="col-12 col-xl-6">
+        <div class="card">
+            <div th:if="${errorMessage != null}" th:text="${errorMessage}" class="alert alert-danger alert-dismissible">
+                ...
+            </div>
+            <div th:if="${flashMessage != null}" th:text="${flashMessage}"
+                 class="alert alert-success alert-dismissible">
+                ...
+            </div>
+            <div class="card-header">
+                <h5 class="card-title">Ajouter nouvelle boutique</h5>
+                <!--                <h6 class="card-subtitle text-muted">Boutique de l'administrateur</h6>-->
+            </div>
+            <div class="card-body">
+                <form th:object="${boutiqueForm}" method="post" enctype="multipart/form-data"
+                      th:action="@{/save-boutique}">
+                    <div class="mb-3">
+                        <label class="form-label">Email de la boutique</label>
+                        <input th:field="*{email}" required="" type="email" class="form-control" placeholder="Email">
+                        <span class="text-danger" th:if="${#fields.hasErrors('email')}">Cet email existe deja </span>
+
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nom de la boutique</label>
+                        <input th:field="*{nom}" type="text" class="form-control" placeholder="Nom boutique">
+                        <span class="text-danger" th:if="${#fields.hasErrors('nom')}">veuillez saisir ce champ</span>
+
+                    </div>
+                    <!--                    <div class="mb-3">-->
+                    <!--                        <label class="form-label">Password</label>-->
+                    <!--                        <input th:field="*{password}" type="password" class="form-control" placeholder="Password">-->
+                    <!--                        <span class="btn btn-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">..</span>-->
+
+                    <!--                    </div>-->
+                    <!--                    <div class="mb-3">-->
+                    <!--                        <label class="form-label">confirmer Password</label>-->
+                    <!--                        <input th:field="*{confimpassword}" type="password" class="form-control" placeholder="Confirmation mot de passe">-->
+                    <!--                        <span class="btn btn-warning" th:if="${#fields.hasErrors('confirmpassword')}" th:errors="*{confirmpassword}">..</span>-->
+
+                    <!--                    </div>-->
+                    <div class="mb-3">
+                        <label class="form-label">Numero de Telephone</label>
+                        <input th:field="*{telephone}" type="number" class="form-control"
+                               placeholder="Numero de telephone">
+                        <span class="text-danger"
+                              th:if="${#fields.hasErrors('telephone')}">veuillez saisir ce champ</span>
+
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label w-100">Charger le logo boutique</label>
+                        <input th:field="*{avatar}" type="file">
+                        <small class="form-text text-muted">Example block-level help text here.</small>
+                    </div>
+                    <div th:if="${#authorization.expression('hasRole(''ROLE_SUPERADMIN'')')}">
+                        <button type="submit" class="btn btn-primary">Enregistrer la boutique</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

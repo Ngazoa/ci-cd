@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>Spring Boot - Thymeleaf</title>
+    <link rel="shortcut icon" th:href="@{/img/avatars/vryuzblue.svg}" />        <!-- Choose your prefered color scheme -->
+    <link href="../../static/css/light.css" rel="stylesheet" th:href="@{/css/light.css}"/>
+    <link href="../../static/js/settings.js" rel="stylesheet" th:href="@{/js/settings.js}"/>
+    <!-- SweetAlert2 -->
+    <link href="../../static/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" rel="stylesheet"
+          th:href="@{/sweetalert2themebootstrap-4/bootstrap-4.css}">
+</head>
+<body class="flex items-center justify-center h-screen">
+
+<div class="card">
+    <div class="card-body m-sm-3 m-md-5">
+        <div class="mb-4">
+            Hello <strong>Charles Hall</strong>,
+            <br>
+            This is the receipt for a payment of <strong>$268.00</strong> (USD) you made to AdminKit Demo.
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="text-muted">Payment No.</div>
+                <strong>741037024</strong>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <div class="text-muted">Payment Date</div>
+                <strong>October 2, 2021 - 03:45 pm</strong>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="text-muted">Client</div>
+                <strong>
+                    Charles Hall
+                </strong>
+                <p>
+                    4183 Forest Avenue <br>
+                    New York City <br>
+                    10011 <br>
+                    USA <br>
+                    <a href="#">
+                        chris.wood@gmail.com
+                    </a>
+                </p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <div class="text-muted">Payment To</div>
+                <strong>
+                    AdminKit Demo LLC
+                </strong>
+                <p>
+                    354 Roy Alley <br>
+                    Denver <br>
+                    80202 <br>
+                    USA <br>
+                    <a href="#">
+                        info@adminkit.com
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th class="text-end">Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>AdminKit Demo Theme Customization</td>
+                <td>2</td>
+                <td class="text-end">$150.00</td>
+            </tr>
+            <tr>
+                <td>Monthly Subscription </td>
+                <td>3</td>
+                <td class="text-end">$25.00</td>
+            </tr>
+            <tr>
+                <td>Additional Service</td>
+                <td>1</td>
+                <td class="text-end">$100.00</td>
+            </tr>
+            <tr>
+                <th>&nbsp;</th>
+                <th>Subtotal </th>
+                <th class="text-end">$275.00</th>
+            </tr>
+            <tr>
+                <th>&nbsp;</th>
+                <th>Shipping </th>
+                <th class="text-end">$8.00</th>
+            </tr>
+            <tr>
+                <th>&nbsp;</th>
+                <th>Discount </th>
+                <th class="text-end">5%</th>
+            </tr>
+            <tr>
+                <th>&nbsp;</th>
+                <th>Total </th>
+                <th class="text-end">$268.85</th>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="text-center">
+            <p class="text-sm">
+                <strong>Extra note:</strong>
+                Please send all items at the same time to the shipping address.
+                Thanks in advance.
+            </p>
+
+            <a href="#" class="btn btn-primary">
+                Print this receipt
+            </a>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

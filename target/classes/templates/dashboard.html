@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en" th:replace="~{layout/layout::main-fragment(
+        ~{::title2},
+        ~{:: #others-static-ressource},
+        ~{:: #main-content},
+        ~{:: #others-js}
+      )}"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+
+<title th:text="${title}">Domiciliation Manager</title>
+
+<th:block id="others-static-ressource">
+    <style>
+            #details-domiciliation p b{
+                text-align: left;
+                color: rgb(0, 162, 232);
+                float: right;
+            }
+            #details-transaction {
+                border-right: solid 1px #ccc;
+                padding-right: 25px;
+            }
+
+
+    </style>
+</th:block>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${titre}">Title</title>
+</head>
+<body>
+<div id="main-content">
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-xl-6 col-xxl-5 d-flex">
+                <div class="w-100">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Vente</h5>
+                                        </div>
+
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <svg class="feather feather-truck align-middle" fill="none" height="24"
+                                                     stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                     stroke-width="2" viewBox="0 0 24 24" width="24"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <rect height="13" width="15" x="1" y="3"></rect>
+                                                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                                                    <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                                                    <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1 mb-3" th:utext="${nbreTotalCmnd}">2.382</h1>
+                                    <div class="mb-0">
+                                        <a th:href="@{/list-commandes-client-user}"> <span class="text-success"> <i
+                                                class="mdi mdi-arrow-bottom-right"></i>
+                                        Voir plus...</span>
+                                            <span class="text-muted">Depuis bestock</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Fournisseurs </h5>
+                                        </div>
+
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <svg class="feather feather-users align-middle" fill="none" height="24"
+                                                     stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                     stroke-width="2" viewBox="0 0 24 24" width="24"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                                    <circle cx="9" cy="7" r="4"></circle>
+                                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1 mb-3" th:utext="${nbreFournisseur}">14.212</h1>
+                                    <div class="mb-0">
+                                        <a th:href="@{/get-fournisseur-list}"> <span class="text-success"> <i
+                                                class="mdi mdi-arrow-bottom-right"></i>
+                                        Voir plus...</span>
+                                            <span class="text-muted">Depuis bestock</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title">Montant </h5>
+                                        </div>
+
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <svg class="feather feather-dollar-sign align-middle" fill="none" height="24"
+                                                     stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                     stroke-width="2" viewBox="0 0 24 24" width="24"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <line x1="12" x2="12" y1="1" y2="23"></line>
+                                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1 mb-3" th:utext="${montantTotalCmnd}">$21.300</h1>
+                                    <div class="mb-0">
+                                         <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i>
+                                        1</span>
+                                        <span class="text-muted">Depuis bestock</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col mt-0">
+                                            <h5 class="card-title"> Livraisons</h5>
+                                        </div>
+
+                                        <div class="col-auto">
+                                            <div class="stat text-primary">
+                                                <svg class="feather feather-shopping-cart align-middle" fill="none" height="24"
+                                                     stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                     stroke-width="2" viewBox="0 0 24 24" width="24"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="9" cy="21" r="1"></circle>
+                                                    <circle cx="20" cy="21" r="1"></circle>
+                                                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 class="mt-1 mb-3" th:utext="${nbrecomandeFournisseur}">64</h1>
+                                    <div class="mb-0">
+                                        <a th:href="@{/get-list-commande-fournisseur}"> <span class="text-success"> <i
+                                                class="mdi mdi-arrow-bottom-right"></i>
+                                        Voir plus...</span>
+                                            <span class="text-muted">Depuis bestock</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6 col-xxl-7">
+                <div class="card flex-fill w-100">
+                    <div class="card-header">
+                        <div class="float-end">
+                            <form class="row g-2">
+                                <div class="col-auto">
+                                    <select class="form-select form-select-sm bg-light border-0" id="list-devises">
+                                        <option value="">ALL</option>
+                                        <option th:each="a: ${article}" th:if="${article}!=null" th:text="${a.name}"
+                                                th:value="${a.id}"></option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <h5 class="card-title mb-0">Evolution des ventes 12 derniers jours</h5>
+                    </div>
+                    <div class="card-body pt-2 pb-3" id="line-chart" th:data-uri="${lineChartUri}">
+                        <div class="chart chart-sm">
+                            <canvas id="chartjs-dashboard-line"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-6 col-xxl-3 d-flex order-2 order-xxl-3">
+                <div class="card flex-fill w-100">
+                    <div class="card-header">
+
+                        <h5 class="card-title mb-0">Les Produits</h5>
+                    </div>
+                    <div class="card-body d-flex">
+                        <div class="align-self-center w-100">
+                            <div class="py-3">
+                                <div class="chart chart-xs">
+                                    <div class="chartjs-size-monitor">
+                                        <div class="chartjs-size-monitor-expand">
+                                            <div class=""></div>
+                                        </div>
+                                        <div class="chartjs-size-monitor-shrink">
+                                            <div class=""></div>
+                                        </div>
+                                    </div>
+                                    <canvas class="chartjs-render-monitor"
+                                            height="200"
+                                            id="chartjs-dashboard-pie" style="display: block; width: 445px; height: 200px;" width="445"></canvas>
+                                </div>
+                            </div>
+
+                            <table class="table mb-0">
+                                <tbody>
+                                <tr>
+                                    <td>Chrome</td>
+                                    <td class="text-end">4306</td>
+                                </tr>
+                                <tr>
+                                    <td>Firefox</td>
+                                    <td class="text-end">3801</td>
+                                </tr>
+                                <tr>
+                                    <td>IE</td>
+                                    <td class="text-end">1689</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-12 col-lg-8 col-xxl-9 d-flex">
+                <div class="card flex-fill">
+                    <div class="card-header">
+
+                        <h5 class="card-title mb-0">Dernieres Livraisons</h5>
+                    </div>
+                    <table class="table table-hover my-0">
+                        <thead>
+                        <tr>
+                            <th>produit</th>
+                            <th class="d-none d-xl-table-cell">Fournisseur</th>
+                            <th class="d-none d-xl-table-cell">Quantite</th>
+                            <th class="d-none d-md-table-cell">Status</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:if="${produits}!=null">
+
+                            <tr th:each="b, s : ${produits}">
+                                <td class="d-none d-xl-table-cell" th:utext="${b.article.name}"></td>
+                                <td class="d-none d-xl-table-cell" th:utext="${b.fournisseur.nomFournisseur}"></td>
+                                <td class="d-none d-xl-table-cell" th:utext="${b.quantite}"></td>
+                                <td>
+                                    <span class="badge bg-danger" th:if="${b.isAnnule}">Annulee</span>
+                                    <span class="badge bg-success" th:unless="${b.isAnnule}">validee</span>
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button aria-expanded="false" aria-haspopup="true"
+                                                class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" type="button">
+                                            Select
+                                        </button>
+                                        <div class="dropdown-menu" style="">
+                                            <a class="dropdown-item"
+                                               th:href="@{/Edit-article-stock-form-{id}(id=${b.id})}">Modifier</a>
+                                            <a class="dropdown-item"
+                                               th:href="@{/annuler-commande-{id}-fournisseur(id=${b.id})}">Annuler</a>
+                                            <div class="dropdown-divider"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+</body>
+</html>

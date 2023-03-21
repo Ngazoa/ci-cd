@@ -1,0 +1,11 @@
+Author: Yogesh singh
+Author URL: http://makitweb.com/
+Author Email: yogesh@makitweb.com
+Tutorial Link: http://makitweb.com/drag-and-drop-file-upload-with-dropzone-in-codeigniter/
+
+#######################################################
+
+### Instructions - 
+
+* base_url
+Rename the folder and edit $config['base_url'] in application/config/config.php

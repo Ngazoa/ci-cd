@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      th:replace="~{layout/layout::main-fragment(
+        ~{::title2},
+        ~{:: #others-static-ressource},
+        ~{:: #main-content},
+        ~{:: #others-js}
+      )}">
+
+<title th:text="${title}">Boutique Manager</title>
+
+<th:block id="others-static-ressource">
+    <style>
+            #details-domiciliation p b{
+                text-align: left;
+                color: rgb(0, 162, 232);
+                float: right;
+            }
+            #details-transaction {
+                border-right: solid 1px #ccc;
+                padding-right: 25px;
+            }
+
+    </style>
+</th:block>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+</head>
+<body>
+<div id="main-content">
+    <div class="card-header pb-0">
+        <div class="row mb-2 mb-xl-3">
+
+            <div class="col-auto ms-auto text-end mt-n1">
+                <a th:href="@{/get-article-form}" class="btn btn-primary">Nouvel Article</a>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="dt-buttons btn-group flex-wrap">
+                        <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0"
+                                aria-controls="datatables-buttons" type="button"><span>Copy</span></button>
+                        <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="datatables-buttons"
+                                type="button"><span>Print</span></button>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div id="datatables-buttons_filter" class="dataTables_filter"><label>Search:<input type="search"
+                                                                                                       class="form-control form-control-sm"
+                                                                                                       placeholder=""
+                                                                                                       aria-controls="datatables-buttons"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table id="datatables-reponsive" class="table table-striped" style="width:100%">
+            <thead>
+            <tr>
+                <th>#Num</th>
+                <th></th>
+                <th>Nom article</th>
+                <th>Code </th>
+                <th>Prix achat</th>
+                <th>Prix Vente</th>
+                <th>Categorie</th>
+                <th>Etat de l'article</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:if="${articles}!=null">
+            <tr th:each="b, s : ${articles}">
+                <td th:utext="${s.count}"></td>
+                <td>
+                    <div class="flex-shrink-0">
+                        <div th:if="${b.avatar!= null}">
+                            <img th:src="@{image/{img}(img=${b.avatar})}" alt="Avatar"
+                                 class="avatar img-fluid rounded" width="100" height="100"/>
+                        </div>
+                        <div th:unless="${b.avatar != null }">
+                            <img th:src="@{/img/avatars/avatar.png}" alt="Avatar"
+                                 class="avatar img-fluid rounded" width="100" height="100"/>
+                        </div>
+                    </div>
+                </td>
+                <td th:utext="${b.name}"></td>
+                <td th:utext="${b.code}"></td>
+                <td class='montant_format' th:utext="${b.prixAchat}"></td>
+                <td class='montant_format' th:utext="${b.prixDeVente}"></td>
+                <td th:utext="${b.cathegorieArticle.nom}"></td>
+                <td><a th:href="@{/articles-{id}/manage(id=${b.id})}">
+                    <span th:if="${b.isEnabled}" class="badge bg-success">active</span>
+                    <span th:unless="${b.isEnabled}" class="badge bg-danger">block</span>
+                </a>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Select
+                        </button>
+                        <div class="dropdown-menu" style="">
+                            <a class="dropdown-item" th:href="@{/get-articles-form-{id}(id=${b.id})}">Modifier</a>
+                            <a class="dropdown-item" th:href="@{/articles-{id}/manage(id=${b.id})}">activer/desactiver</a>
+                            <div class="dropdown-divider"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </th:block>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+</body>
+</html>

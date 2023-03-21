@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{layout/layout::main-fragment(
+        ~{::title2},
+        ~{:: #others-static-ressource},
+        ~{:: #main-content},
+        ~{:: #others-js}
+      )}"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+
+<title th:text="${title}">Domiciliation Manager</title>
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+</head>
+<body>
+<div id="main-content">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-subtitle text-muted">Traitement de stock<a rel="noopener noreferrer nofollow"
+                                                                               target="_blank">here</a>.
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form class="row g-3 needs-validation was-validated"
+                          method="post" novalidate="" th:action="@{/save-article-stock}" th:object="${stockForm}">
+                        <div class="col-md-3">
+                            <label class="form-label">Article</label>
+                            <select class="form-control form-select" th:field="*{article}">
+                                <option value="">Selectionner article</option>
+                                <option th:each="d, state : ${articles}" th:if="${d.isEnabled}" th:text="${d.name}"
+                                        th:value="${d.id}"></option>
+
+
+                            </select>
+                            <span class="text-danger" th:if="${#fields.hasErrors('article')}">
+                                    Veuillez selectionner un article</span>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Fournisseur</label>
+                            <select class="form-control form-select" th:field="*{fournisseur}">
+                                <option value="">Selectionner Fournissseur</option>
+                                <option th:each="d, state : ${fournisseurs}" th:if="${d.isEnabled}" th:text="${d.nomFournisseur}"
+                                        th:value="${d.id}"></option>
+
+                            </select>
+                            <span class="text-danger" th:if="${#fields.hasErrors('fournisseur')}">
+                                    Veuillez selectionner un un fournisseur valide</span>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label" for="validationCustom05">Quantite</label>
+                            <input class="form-control" id="validationCustom05" required="" th:field="*{quantite}"
+                                   type="number">
+                            <span class="text-danger" th:if="${#fields.hasErrors('quantite')}">
+                                    Veuillez selectionner une quantite superieur a 0</span>
+                            <div class="invalid-feedback">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="add_form_field">
+                                <a class="btn btn-success float-end mt-n1" href="#">
+                                    <i class="fas fa-plus">
+                                    </i> nouvel article</a>
+                            </button>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-primary" type="submit">Enregistre Fournisseur</button>
+                        </div>
+                        <div class="container1"></div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

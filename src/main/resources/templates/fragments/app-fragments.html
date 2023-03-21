@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<nav th:fragment="navbar" class="navbar navbar-expand navbar-light navbar-bg">
+
+    <a class="sidebar-toggle js-sidebar-toggle">
+        <i class="hamburger align-self-center"></i>
+    </a>
+    <form class="d-none d-sm-inline-block">
+        <div class="input-group input-group-navbar">
+            <input type="text" class="form-control" placeholder="Search…" aria-label="Search">
+            <button class="btn" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search align-middle"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+        </div>
+    </form>
+    <h3 th:if="${session.boutique != null}" th:text="${session.boutique.name}"></h3>
+    <div class="navbar-collapse collapse">
+        <ul class="navbar-nav navbar-align">
+
+            <li class="nav-item dropdown">
+                <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
+                    <div class="position-relative">
+                        <i class="align-middle" data-feather="bell"></i>
+                        <span class="indicator" id="nbreNotif"></span>
+                    </div>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
+                    <div id="lastNotif" class="list-group">
+
+                    </div>
+                    <div class="dropdown-menu-footer">
+                        <a th:href="@{/getAllnotification}" class="text-muted">Voir toutes</a>
+                    </div>
+                </div>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a  class="nav-link" title="Nom du connecte">
+                    <span th:text="${session.user2.nameUser}"></span>
+                </a>
+            </li>
+
+
+            <li class="nav-item dropdown">
+                <a class="nav-icon pe-md-0 dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                    <div th:if="${session.user2.avatar != null}">
+                        <img th:src="@{image/{data}(data=${session.user2.avatar })}"
+                             height="72" class="avatar rounded-circle" alt="Avatar">
+                    </div>
+                    <div th:unless="${session.user2.avatar != null}">
+                        <img th:src="@{/img/avatars/avatar.png}"
+                             src="../static/img/avatars/avatar.jpg" width="32"
+                             height="72" class="avatar rounded-circle" alt="Avatar">
+                    </div>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end">
+                    <a class="dropdown-item" th:href="@{/get-user-modif-{id}(id=${session.user})}"><i class="align-middle me-1"
+                                                                             data-feather="user"></i> Profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/edit-password-form}">Editer mot de passe</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/logout}">Se déconnecter</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</nav>
+
+<nav th:fragment="shortcup" class="navbar navbar-expand navbar-light navbar-bg shortcup">
+    <ul class="navbar-nav">
+        <th:block th:if="${#authorization.expression('hasRole(''ROLE_CLIENT'')')}">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="transactionsDropdown" role="button"
+               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-money-bill"></i>
+                <span>Transactions</span>
+            </a>
+
+        </li>
+        <li class="nav-item">
+            <a th:href="@{/domiciliations/new}" class="nav-link" title="Nouvelle domiciliation">
+                <i class="fas fa-brush"></i>
+                <span>Domiciliation</span>
+            </a>
+        </li>
+        </th:block>
+        <th:block th:if="${#authorization.expression('hasRole(''ROLE_SUPERADMIN'')')}">
+            <li class="nav-item">
+                <a th:href="@{/clients/new}" class="nav-link" title="Nouveau client">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Client</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{/import-clients}" class="nav-link" title="Importer des clients">
+                    <i class="fas fa-upload"></i>
+                    <span>Importer</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{/type-transactions}" class="nav-link" title="Gestion des types de transaction">
+                    <i class="fas fa-share"></i>
+                    <span>Type</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{/type-fichiers}" class="nav-link" title="Gestion des fichiers">
+                    <i class="fas fa-file-signature"></i>
+                    <span>Fichiers</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{/send-mise-en-demeure}" class="nav-link" title="Envoyer des Mises en demeure">
+                    <i class="fas fa-envelope-open-text"></i>
+                    <span>Mails</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{/admin/add-user}" class="nav-link" title="Nouvel utilisateur">
+                    <i class="fas fa-users-cog"></i>
+                    <span>Users</span>
+                </a>
+            </li>
+        </th:block>
+    </ul>
+
+</nav>
+
+<nav th:fragment="sidebar" id="sidebar" class="sidebar js-sidebar">
+    <div class="sidebar-content js-simplebar">
+        <a class="sidebar-brand" href="/">
+                                <span class="sidebar-brand-text align-middle">
+                                    Best Stock
+                                </span>
+            <svg class="sidebar-brand-icon align-middle" width="32px" height="32px" viewBox="0 0 24 24" fill="none"
+                 stroke="#FFFFFF" stroke-width="1.5"
+                 stroke-linecap="square" stroke-linejoin="miter" color="#FFFFFF" style="margin-left: -3px">
+                <path d="M12 4L20 8.00004L12 12L4 8.00004L12 4Z"></path>
+                <path d="M20 12L12 16L4 12"></path>
+                <path d="M20 16L12 20L4 16"></path>
+            </svg>
+        </a>
+
+        <div class="sidebar-user">
+            <div class="d-flex justify-content-center">
+                <div class="flex-shrink-0">
+                    <div th:if="${session.boutique != null and session.boutique.avatar != null}">
+                        <img th:src="@{image/{img}(img=${session.boutique.avatar})}" alt="Avatar"
+                             class="avatar img-fluid rounded" width="100" height="100"/>
+                    </div>
+                    <div th:unless="${session.boutique != null and session.boutique.avatar != null}">
+                        <img th:src="@{/img/avatars/avatar.png}" alt="Avatar"
+                             class="avatar img-fluid rounded" width="100" height="100"/>
+                    </div>
+                </div>
+                <div class="flex-grow-1 ps-2">
+                    <span th:if="${session.boutique != null}" th:text="${session.boutique.name}"></span>
+                    <span th:unless="${session.boutique != null}">Boutique</span>
+                </div>
+            </div>
+        </div>
+
+        <ul class="sidebar-nav">
+            <li class="sidebar-header">
+                Menu
+            </li>
+
+            <li class='sidebar-item' th:classappend="${#strings.equals(dash, 'dash')} ? active : ''">
+                <a class="sidebar-link" th:href="@{/load-dashboard}">
+                    <i class="align-middle" data-feather="home"></i> <span class="align-middle">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item" th:classappend="${#strings.equals(dash, 'transaction')} ? active : ''">
+                <a data-bs-target="#transactions" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Commandes</span>
+                </a>
+                <ul id="transactions" class="sidebar-dropdown list-unstyled collapse "
+                    th:classappend="${#strings.equals(dash, 'transaction')} ? show : ''" data-bs-parent="#sidebar">
+                    <li class="sidebar-item" th:classappend="${#strings.equals(das, 'validated')} ? active : ''"><a
+                            class="sidebar-link" th:href="@{/get-form-new-commad}">Nouvelle</a>
+                    </li>
+                    <li class="sidebar-item" th:classappend="${#strings.equals(das, 'all')} ? active : ''"><a
+                            class="sidebar-link" th:href="@{/list-commandes-client-user}">Toutes</a></li>
+                    <li class="sidebar-item" th:classappend="${#strings.equals(das, 'waiting')} ? active : ''"><a
+                            class="sidebar-link" th:href="@{/get-list-commande-fournisseur}">Avec Fournisseurs</a>
+                    </li>
+                    <li class="sidebar-item" th:classappend="${#strings.equals(das, 'maker')} ? active : ''"><a
+                            class="sidebar-link" th:href="@{/list-commandes-client-user}">Avec Clients</a></li>
+                    <li class="sidebar-item" th:classappend="${#strings.equals(das, 'checked')} ? active : ''"><a
+                            class="sidebar-link" th:href="@{/list-commandes-client-user-}">Annullees</a>
+                    </li>
+<!--                    -->
+<!--                    <li class="sidebar-item" th:classappend="${#strings.equals(das, 'sendback')} ? active : ''"><a-->
+<!--                            class="sidebar-link" th:href="@{/transactions/{status}(status='sendback')}">Appouvees</a>-->
+<!--                    </li>-->
+
+
+                </ul>
+            </li>
+
+            <li th:if="${#authorization.expression('hasRole(''ROLE_SUPERUSER'')')}" class="sidebar-item" th:classappend="${#strings.equals(dash, 'apurement')} ? active : ''">
+                <a class="sidebar-link" th:href="@{/list-boutique}">
+                    <i class="align-middle" data-feather="credit-card"></i> <span class="align-middle">Boutique</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item" th:classappend="${#strings.equals(dash, 'apurments')} ? active : ''">
+                <a data-bs-target="#apurments" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                    <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Articles</span>
+                </a>
+                <ul id="apurments" class="sidebar-dropdown list-unstyled collapse "
+                    th:classappend="${#strings.equals(dash, 'apurments')} ? show : ''" data-bs-parent="#sidebar">
+                    <li th:if="${#authorization.expression('hasRole(''ROLE_SUPERADMIN'')')}" class="sidebar-item" th:classappend="${#strings.equals(das, 'apw')} ? active : ''">
+                        <a class="sidebar-link" th:href="@{/get-article-form}">Nouvel</a>
+                    </li>
+                    <li class="sidebar-item" th:classappend="${#strings.equals(das, 'apa')} ? active : ''">
+                        <a class="sidebar-link" th:href="@{/article-list}">Liste articles</a>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li class="sibebar-item" th:classappend="${#strings.equals(dash, 'domiciliation')} ? active : ''">
+                <a class="sidebar-link" th:href="@{/get-fournisseur-list}">
+                    <i class="align-middle" data-feather="corner-right-down"></i> <span class="align-middle">Fournisseurs</span>
+                </a>
+            </li>
+            <li th:if="${#authorization.expression('hasRole(''ROLE_SUPERADMIN'')')}" class="sidebar-item"
+                th:classappend="${#strings.equals(dash, 'reporting')} ? active : ''">
+                <a class="sidebar-link" th:href="@{/get-list-commande-fournisseur}">
+                    <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Livraisons</span>
+                </a>
+            </li>
+            <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="sidebar-item"
+                th:classappend="${#strings.equals(dash, 'reporting')} ? active : ''">
+                <a class="sidebar-link" th:href="@{/list-boutique}">
+                    <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Boutique</span>
+                </a>
+            </li>
+                <li class="sidebar-item" th:classappend="${#strings.equals(dash, 'client')} ? active : ''">
+                    <a class="sidebar-link" th:href="@{/list-categorie}">
+                        <i class="align-middle" data-feather="user"></i>  <span class="align-middle">Categorie Article</span>
+                    </a>
+                </li>
+            <li th:if="${#authorization.expression('hasRole(''ROLE_SUPERADMIN'')')}" class="sidebar-item" th:classappend="${#strings.equals(dash, 'params')} ? active : ''">
+                <a class="sidebar-link" th:href="@{/user-list}">
+                    <i class="align-middle" data-feather="users"></i>   <span class="align-middle">Administrateur</span>
+                </a>
+            </li>
+<!--            <th:block th:if="${#authorization.expression('hasRole(''ROLE_SUPERADMIN'')')}">-->
+<!--                <li class="sidebar-item" th:classappend="${#strings.equals(dash, 'admin')} ? active : ''">-->
+<!--                    <a class="sidebar-link" th:href="@{/admin-users-list}">-->
+<!--                        <i class="align-middle" data-feather="users"></i> </i> <span-->
+<!--                           class="align-middle">Administrateurs</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--            </th:block>-->
+`
+            <li class="sidebar-item">
+                <a class="sidebar-link" th:href="@{/get-stok-boutique-}">
+                    <i class="align-middle" data-feather="briefcase"></i> <span class="align-middle">Stock</span>
+                </a>
+            </li>
+            <th:block th:unless="${#authorization.expression('hasRole(''ROLE_CLIENT'')')}">
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="">
+                        <i class="align-middle" data-feather="briefcase"></i> <span class="align-middle">Support</span>
+                    </a>
+                </li>
+            </th:block>
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="">
+                    <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Aide</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+</body>
+</html>

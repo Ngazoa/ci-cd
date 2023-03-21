@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      th:replace="~{layout/layout::main-fragment(
+        ~{::title2},
+        ~{:: #others-static-ressource},
+        ~{:: #main-content},
+        ~{:: #others-js}
+      )}">
+
+<title th:text="${title}">Boutique Manager</title>
+
+<th:block id="others-static-ressource">
+    <style>
+            #details-domiciliation p b{
+                text-align: left;
+                color: rgb(0, 162, 232);
+                float: right;
+            }
+            #details-transaction {
+                border-right: solid 1px #ccc;
+                padding-right: 25px;
+            }
+
+    </style>
+</th:block>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+</head>
+<body>
+<div id="main-content">
+    <div class="card-header pb-0">
+        <div class="row mb-2 mb-xl-3">
+
+            <div class="col-auto ms-auto text-end mt-n1">
+                <a th:href="@{/add-article-stock}" class="btn btn-primary">Nouvel entree de stock</a>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="dt-buttons btn-group flex-wrap">
+                        <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0"
+                                aria-controls="datatables-buttons" type="button"><span>Copy</span></button>
+                        <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="datatables-buttons"
+                                type="button"><span>Print</span></button>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div id="datatables-buttons_filter" class="dataTables_filter"><label>Search:<input type="search"
+                                                                                                       class="form-control form-control-sm"
+                                                                                                       placeholder=""
+                                                                                                       aria-controls="datatables-buttons"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table id="datatables-reponsive" class="table table-striped" style="width:100%">
+            <thead>
+            <tr>
+                <th>#Num</th>
+                <th>Article</th>
+                <th>Fournisseur</th>
+                <th>Quantite</th>
+                <th>Ref</th>
+                <th>Date Creation</th>
+                <th>Statut</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:bloc th:if="${produits}!=null" >
+            <tr th:each="b, s : ${produits}">
+                <td th:utext="${s.count}"></td>
+                <td th:utext="${b.article.name}"></td>
+                <td th:utext="${b.fournisseur.nomFournisseur}"></td>
+                <td th:utext="${b.quantite}"></td>
+                <td th:utext="${b.codecommande}"></td>
+                <td th:utext="${b.dateCreation}"></td>
+                <td>
+                    <span th:if="${b.isAnnule}" class="badge bg-danger">Annulee</span>
+                    <span th:unless="${b.isAnnule}" class="badge bg-success">validee</span>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Select
+                        </button>
+                        <div class="dropdown-menu" style="">
+                            <a class="dropdown-item" th:href="@{/Edit-article-stock-form-{id}(id=${b.id})}">Modifier</a>
+                            <a class="dropdown-item" th:href="@{/annuler-commande-{id}-fournisseur(id=${b.id})}">Annuler</a>
+                            <div class="dropdown-divider"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </th:bloc>
+            </tbody>
+        </table>
+        <nav id="pagination" th:if="${nbPages != null and nbPages > 1 }" th:data-pages="${nbPages}" th:data-uri="${uri}" th:data-current="${currentPage}" aria-label="Page navigation example">
+            <div th:replace="pagination::pagination"></div>
+        </nav>
+    </div>
+</div>
+</body>
+</html>

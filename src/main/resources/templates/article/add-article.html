@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      th:replace="~{layout/layout::main-fragment(
+        ~{::title2},
+        ~{:: #others-static-ressource},
+        ~{:: #main-content},
+        ~{:: #others-js}
+      )}">
+
+<title th:text="${title}">Domiciliation Manager</title>
+
+<th:block id="others-static-ressource">
+    <style>
+            #details-domiciliation p b{
+                text-align: left;
+                color: rgb(0, 162, 232);
+                float: right;
+            }
+            #details-transaction {
+                border-right: solid 1px #ccc;
+                padding-right: 25px;
+            }
+        </style>
+</th:block>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+</head>
+<body>
+<div id="main-content">
+
+    <div class="row">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-subtitle text-muted" th:text="${operation}">Creation d'un nouvel article.</h5>
+            </div>
+            <div class="card-body">
+                <form class="row g-3" th:method="post"  enctype="multipart/form-data" th:action="@{${articleuri}}" th:object="${articleForm}">
+                    <div class="col-md-6">
+                        <label for="validationDefault01" class="form-label">Nom Article</label>
+                        <input type="text" class="form-control" id="validationDefault01" th:field="*{name}" required="">
+                        <span class="text-danger" th:if="${#fields.hasErrors('name')}" >Ce nom existe deja</span>
+
+                    </div>
+                    <div class="col-md-6">
+                        <label for="validationDefault02" class="form-label">Prix d'achat</label>
+                        <input type="text" class="form-control" id="validationDefault02" th:field="*{prixAchat}" required="">
+                        <span class="text-danger" th:if="${#fields.hasErrors('prixAchat')}" >Veuillez saisir un montant valide</span>
+
+                    </div>
+                    <div class="col-md-6">
+                        <label  class="form-label">Prix de vente</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control"  th:field="*{prixVente}" required="">
+                            <span class="text-danger" th:if="${#fields.hasErrors('prixVente')}" >Veuillez saisir un montant valide et superieur au prix d'achat</span>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label  class="form-label">Cathegorie</label>
+                        <select class="form-control form-select" th:field="*{cathegorie}">
+                            <option value="">Selectionner la categorie</option>
+                            <option th:each="d, state : ${categories}" th:value="${d.id}" th:text="${d.nom}"></option>
+                        </select>
+                        <span th:if="${#fields.hasErrors('cathegorie')}" class="text-danger">Veuillez selectionner une categorie</span>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="validationDefault01" class="form-label">Code Article</label>
+                        <input type="text" class="form-control" id="validati" th:field="*{code}" >
+                    </div>
+<!--                    <div class="col-md-3">-->
+<!--                        <label  class="form-label">Fournisseur</label>-->
+<!--                        <select class="form-select" th:field="*{fournisseur}" required="">-->
+<!--                            <option selected="" disabled="" value=""></option>-->
+<!--                            <option th:each="d, state : ${fournisseurs}" th:value="${d.id}" th:text="${d.nom}"></option>-->
+
+
+<!--                        </select>-->
+<!--                    </div>-->
+                    <div class="col-md-6">
+                        <label class="form-label w-100">Charger image Article</label>
+                        <input th:field="*{avatar}" type="file">
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-4 col-xl-3">
+
+                        <img th:src="@{image/{image}(image=*{avatar})}" class="img-fluid pe-2" alt="user image">
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary" type="submit">Sauvegarder</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

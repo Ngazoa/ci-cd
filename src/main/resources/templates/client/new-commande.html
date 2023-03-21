@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{layout/layout::main-fragment(
+        ~{::title2},
+        ~{:: #others-static-ressource},
+        ~{:: #main-content},
+        ~{:: #others-js}
+      )}"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+
+<title th:text="${title}">Domiciliation Manager</title>
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+</head>
+<body>
+<div id="main-content">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <form class="row g-3 needs-validation was-validated"
+                      id="idfom" method="post" th:action="@{/save-confirmation-commande}">
+                    <div class="card-header">
+                        <h5 class="card-subtitle text-muted">Traitement de stock
+                        </h5>
+
+                        <table class="table table-striped" id="datatables-reponsive" style="width:100%">
+
+                            <td>
+                                <button class="add_form_article">
+                                    <a class="btn btn-success " href="#">
+                                        <i class="fas fa-plus">
+                                        </i> nouvel article</a>
+                                </button>
+                            </td>
+                            <td>
+                                <div class="col-md-8">
+                                    <label class="form-label" for="validationCustom01">Nom Client (Facultatif)</label>
+                                    <input class="form-control " id="validationCustom01" name="client" type="text"
+                                           value="client-1">
+                                    <div class="valid-feedback"></div>
+                                </div>
+                            </td>
+                        </table>
+                    </div>
+                    <div class="card-body">
+
+                        <table class="table table-striped" id="datatables-reponsiv" style="width:100%">
+                            <td>
+                                <div class="col-md-5">
+                                    <label class="form-label">Article</label>
+                                    <select class="form-control input form-select" name="article[]" required>
+                                        <option th:each="d, state : ${articles}" th:text="${d.name}"
+                                                th:value="${d.id}"></option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-md-3">
+                                    <label class="form-label" for="validationCustom05" riquired>Quantite</label>
+                                    <input class="form-control input" id="validationCustom05" name="quantite[]" required=""
+                                           type="number">
+                                    <div class="invalid-feedback">
+                                    </div>
+                                </div>
+                            </td>
+                        </table>
+                        <div class="container1 row"></div>
+                        <button class="btn btn-success add_form_article">
+
+                            <i class="fas fa-plus">
+                            </i> nouvel article
+                        </button>
+                        <br>
+                        <hr>
+                        <div class="col-12">
+                            <button class="confirm-valid btn btn-primary" type="button">
+                                <!--                                    data-bs-toggle="modal" data-bs-target="#sizedModalMd"-->
+
+                                Previsualiser Facture
+                            </button>
+                        </div>
+
+                        <div aria-hidden="true" class="modal fade" id="myModal" role="dialog" tabindex="-1">
+                            <div class="modal-dialog modal-md" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Facture en cours</h5>
+                                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                                type="button"></button>
+                                    </div>
+                                    <div class="modal-body m-3">
+                                        <div class="contain"></div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">
+                                            Annuler
+                                        </button>
+                                        <button class="btn btn-primary" type="submit">Valider l'achat</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

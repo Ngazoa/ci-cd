@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      th:replace="~{layout/layout::main-fragment(
+        ~{::title2},
+        ~{:: #others-static-ressource},
+        ~{:: #main-content},
+        ~{:: #others-js}
+      )}">
+
+<title th:text="${title}">Domiciliation Manager</title>
+
+<th:block id="others-static-ressource">
+    <style>
+            #details-domiciliation p b{
+                text-align: left;
+                color: rgb(0, 162, 232);
+                float: right;
+            }
+            #details-transaction {
+                border-right: solid 1px #ccc;
+                padding-right: 25px;
+            }
+        </style>
+</th:block>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+</head>
+<body>
+<div id="main-content">
+
+    <div class="row">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-subtitle text-muted">Creation d'une nouvelle categorie article.</h5>
+            </div>
+            <div class="card-body">
+                <form class="row g-3" th:method="post"  th:action="@{${catheGorieUri}}" th:object="${cathegorieForm}">
+                    <div class="col-md-6">
+                        <label for="validationDefault01" class="form-label">Nom Categorie</label>
+                        <input type="text" class="form-control" id="validationDefault01" th:field="*{nom}" required="">
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary" type="submit">Sauvegarder</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
