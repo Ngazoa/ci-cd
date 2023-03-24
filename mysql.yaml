@@ -33,7 +33,7 @@ spec:
                   name: mysql-secret
                   key: password
             - name: MYSQL_DATABASE
-              value: akouma_stock
+              value: jdbc:mysql://mysql-service:3306/akouma_stock
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
