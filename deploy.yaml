@@ -22,12 +22,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: mysql-secret
-                  key: root
+                  key: username
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mysql-secret
-                  key:
+                  key: password
           ports:
             - containerPort: 8080
               name: http
